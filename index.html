@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Claudia & William - Invitación</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root { --azul: #1a2a44; --azul-oscuro: #111b2c; --dorado: #c5a059; --crema: #fdfaf6; }
+        
+        body, html { margin: 0; padding: 0; font-family: 'Playfair Display', serif; background-color: var(--azul); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+
+        /* --- SOBRE ANIMADO --- */
+        #envelope-wrapper { position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; z-index: 1000; background: var(--azul); transition: transform 1.2s cubic-bezier(0.4, 0, 0.2, 1); }
+        .envelope { position: relative; width: 320px; height: 220px; background: #1c2d4a; box-shadow: 0 15px 40px rgba(0,0,0,0.5); }
+        .flap { position: absolute; top: 0; left: 0; width: 0; height: 0; border-left: 160px solid transparent; border-right: 160px solid transparent; border-top: 110px solid var(--azul); transform-origin: top; transition: transform 0.8s ease; z-index: 3; }
+        .seal { position: absolute; top: 75px; left: 125px; width: 70px; height: 70px; background: var(--dorado); border-radius: 50%; cursor: pointer; z-index: 10; display: flex; justify-content: center; align-items: center; font-family: 'Great Vibes', cursive; font-size: 24px; color: white; transition: 0.5s; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+        .opened .flap { transform: rotateX(180deg); }
+        .opened .seal { transform: translateY(100px); opacity: 0; }
+        .opened #envelope-wrapper { transform: translateY(-100%); transition-delay: 0.4s; }
+
+        /* --- CONTENIDO PRINCIPAL --- */
+        #main-content { display: none; background-color: white; }
+        .opened #main-content { display: block; }
+        section { width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; box-sizing: border-box; }
+
+        /* --- INTRO (AZUL MARINO) --- */
+        .sec-intro { min-height: 100vh; padding: 40px 20px; background-image: radial-gradient(circle, var(--azul) 0%, var(--azul-oscuro) 100%); color: white; }
+        .names { font-family: 'Great Vibes', cursive; font-size: 4.5rem; color: white; margin: 0; line-height: 1.1; text-shadow: 2px 2px 10px rgba(0,0,0,0.5); }
+        .ampersand { font-family: 'Playfair Display', serif; font-style: italic; font-size: 2rem; color: var(--dorado); margin: 10px 0; }
+        
+        /* --- BIBLIA (CREMA) --- */
+        .sec-biblica { padding: 80px 25px; background-color: var(--crema); border-top: 2px solid var(--dorado); border-bottom: 2px solid var(--dorado); }
+        .bible-text { font-style: italic; font-size: 1.2rem; max-width: 500px; color: var(--azul); margin: 0 auto; line-height: 1.7; }
+
+        /* --- SECCIONES BLANCAS --- */
+        .sec-foto-full { height: 80vh; background: url('foto.jpg') no-repeat center center/cover; }
+        .sec-frase { padding: 60px 20px; background: white; font-style: italic; color: #555; font-size: 1.1rem; max-width: 350px; margin: 0 auto; }
+
+        /* --- PADRES --- */
+        .sec-padres { padding: 70px 20px; background-color: var(--crema); }
+        .sec-padres h2 { font-family: 'Cinzel', serif; color: var(--dorado); font-size: 1.8rem; margin-bottom: 30px; letter-spacing: 2px; }
+        .parent-group p { font-size: 1.1rem; color: var(--azul); font-weight: bold; margin: 5px 0; }
+
+        /* --- GALERÍA --- */
+        .sec-galeria { padding: 40px 10px; display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; background: white; }
+        .foto-item { flex: 1 1 280px; max-width: 400px; border: 8px solid white; box-shadow: 0 5px 15px rgba(0,0,0,0.08); }
+        .foto-item img { width: 100%; height: auto; display: block; }
+
+        /* --- INFO EVENTOS --- */
+        .sec-info { padding: 80px 20px; background-color: white; position: relative; border-top: 1px solid #f0f0f0; }
+        .flores-esquina { position: absolute; width: 120px; opacity: 0.8; z-index: 1; pointer-events: none; }
+        .f-top-left { top: 0; left: 0; }
+        .f-bottom-right { bottom: 0; right: 0; transform: rotate(180deg); }
+        .img-icon { width: 70px; height: auto; margin-bottom: 15px; position: relative; z-index: 2; }
+        .btn-mapa { display: inline-block; padding: 12px 30px; color: #777; border: 1px solid #ddd; border-radius: 25px; text-decoration: none; font-size: 0.85rem; letter-spacing: 1px; transition: 0.3s; margin-top: 15px; position: relative; z-index: 2; }
+        .btn-mapa:hover { background: var(--dorado); color: white; border-color: var(--dorado); }
+
+        /* --- FORMULARIO V25 --- */
+        .sec-confirmacion { padding: 80px 20px; background-color: var(--crema); }
+        .form-card { max-width: 450px; margin: 0 auto; background: white; padding: 35px; border-radius: 4px; box-shadow: 0 10px 30px rgba(0,0,0,0.04); text-align: left; }
+        .form-card input, .form-card select, .form-card textarea { width: 100%; padding: 12px 0; border: none; border-bottom: 1px solid #eee; margin-bottom: 20px; font-family: inherit; outline: none; background: transparent; box-sizing: border-box; }
+        .form-card textarea { border: 1px solid #eee; padding: 10px; border-radius: 4px; resize: none; }
+        .btn-submit { width: 100%; background: var(--azul); color: white; border: none; padding: 16px; font-family: 'Cinzel', serif; letter-spacing: 2px; cursor: pointer; transition: 0.4s; }
+
+        /* CONTADOR */
+        .timer { display: flex; gap: 8px; margin-top: 25px; justify-content: center; }
+        .time-box { background: rgba(255,255,255,0.15); padding: 10px; border-radius: 5px; min-width: 55px; color: white; font-weight: bold; font-size: 0.9rem; border: 1px solid rgba(255,255,255,0.2); }
+        .time-box span { display: block; font-size: 1.2rem; color: var(--dorado); }
+
+        @media (max-width: 480px) {
+            .names { font-size: 3.2rem; }
+            .sec-foto-full { height: 60vh; }
+            .form-card { padding: 25px; }
+        }
+    </style>
+</head>
+<body>
+
+    <audio id="musica" loop><source src="cancion.mp3" type="audio/mpeg"></audio>
+
+    <div id="envelope-wrapper">
+        <div class="envelope">
+            <div class="flap"></div>
+            <div class="seal" onclick="abrir()">CW</div>
+        </div>
+    </div>
+
+    <div id="main-content">
+        <section class="sec-intro">
+            <h2 style="font-size: 0.7rem; letter-spacing: 4px; color: var(--dorado); text-transform: uppercase; margin-bottom: 20px;">Nuestra Boda</h2>
+            <p class="names">Claudia</p>
+            <p class="ampersand">&</p>
+            <p class="names">William</p>
+            
+            <div class="timer">
+                <div class="time-box"><span id="days">00</span>Días</div>
+                <div class="time-box"><span id="hours">00</span>Hrs</div>
+                <div class="time-box"><span id="minutes">00</span>Min</div>
+                <div class="time-box"><span id="seconds">00</span>Seg</div>
+            </div>
+            
+            <p style="margin-top: 25px; color: var(--dorado); font-weight: bold; letter-spacing: 3px; font-size: 1.1rem;">20 . 02 . 2027</p>
+        </section>
+
+        <section class="sec-biblica">
+            <p class="bible-text">"Si uno solo puede ser vencido, dos pueden resistir; porque la cuerda de tres hilos no se rompe fácilmente."</p>
+            <div style="font-family: 'Playfair Display', serif; font-weight: bold; color: var(--dorado); margin-top: 20px; letter-spacing: 2px; font-size: 0.85rem;">ECLESIASTES 4, 12</div>
+        </section>
+
+        <section class="sec-foto-full"></section>
+
+        <section class="sec-frase">
+            “El amor nos encontró, el destino nos unió y hoy queremos compartir contigo el día más especial de nuestras vidas.”
+        </section>
+
+        <section class="sec-padres">
+            <h2>Nuestros Padres</h2>
+            <div class="parent-group"><p>Jose Luis Villalta Alvarado</p><p>Rosa Alicia Ruiz de Villalta</p></div>
+            <div style="width: 40px; height: 1px; background: var(--dorado); margin: 25px auto; opacity: 0.4;"></div>
+            <div class="parent-group"><p>Cirilo Gomez</p><p>Maria Luisa Trigueros</p></div>
+        </section>
+
+        <div class="sec-galeria">
+            <div class="foto-item"><img src="galeria1.jpg" alt="Gallery 1"></div>
+            <div class="foto-item"><img src="galeria2.jpg" alt="Gallery 2"></div>
+        </div>
+
+        <section class="sec-info">
+            <img src="descarga (1).jpg" class="flores-esquina f-top-left">
+            <img src="iglesia.png" class="img-icon" alt="Iglesia">
+            <h2 style="font-family: 'Cinzel', serif; color: var(--azul); font-size: 1.6rem;">Ceremonia</h2>
+            <p style="font-size: 1.4rem; color: var(--dorado); font-weight: bold; margin: 10px 0;">3:00 PM</p>
+            <p style="color: #666;">Parroquia Nuestra Señora del Carmen<br>Santa Ana</p>
+            <a href="https://maps.google.com" class="btn-mapa" target="_blank">VER MAPA</a>
+        </section>
+
+        <section class="sec-info" style="background-color: var(--crema);">
+            <img src="arco-de-boda.png" class="img-icon" style="filter: brightness(0) saturate(100%) invert(13%) sepia(45%) saturate(1682%) hue-rotate(192deg) brightness(91%) contrast(89%);">
+            <h2 style="font-family: 'Cinzel', serif; color: var(--azul); font-size: 1.6rem;">Recepción</h2>
+            <p style="font-size: 1.4rem; color: var(--dorado); font-weight: bold; margin: 10px 0;">6:00 PM</p>
+            <p style="color: #666;">Cachito Mountain</p>
+            <a href="https://maps.app.goo.gl/p8NH1SFv5JP5nQ6v7" class="btn-mapa" target="_blank">VER MAPA</a>
+            <img src="descarga (1).jpg" class="flores-esquina f-bottom-right">
+        </section>
+
+        <section class="sec-confirmacion">
+            <div class="form-card">
+                <h2 style="font-family: 'Cinzel', serif; text-align: center; color: var(--azul); margin-top: 0;">R.S.V.P.</h2>
+                <p style="text-align: center; font-size: 0.75rem; color: var(--dorado); letter-spacing: 2px; margin-bottom: 30px;">FAVOR CONFIRMAR ANTES DEL 20.12.2026</p>
+
+                <div style="background: var(--crema); padding: 15px; text-align: center; margin-bottom: 25px; border: 1px solid #f0e6d2;">
+                    <span style="font-size: 0.7rem; text-transform: uppercase; color: #888;">Invitación para:</span><br>
+                    <span id="display-cupos" style="font-size: 1.3rem; color: var(--azul); font-weight: bold;">...</span> 
+                    <span style="font-size: 1rem; color: var(--azul);">personas</span>
+                </div>
+
+                <form id="form-confirmacion">
+                    <input type="text" id="form-nombre" placeholder="Nombre completo" required>
+                    
+                    <select id="form-asistencia">
+                        <option value="Confirmado">Sí, asistiré con gusto</option>
+                        <option value="No asistirá">No podré asistir</option>
+                    </select>
+
+                    <textarea id="form-mensaje" placeholder="Mensaje adicional o alergias..." rows="3"></textarea>
+
+                    <button type="submit" id="btn-enviar" class="btn-submit">ENVIAR CONFIRMACIÓN</button>
+                </form>
+                <div id="exito" style="display:none; text-align:center; color: var(--dorado); margin-top: 20px; font-weight: bold;">¡Gracias! Tu respuesta ha sido registrada.</div>
+            </div>
+        </section>
+
+        <section style="padding: 60px 20px; background: white;">
+            <p style="color: var(--dorado); font-weight: bold; letter-spacing: 3px; font-size: 1rem;">¡LOS ESPERAMOS!</p>
+            <p style="font-family: 'Great Vibes', cursive; font-size: 2.5rem; color: var(--azul); margin-top: 10px;">Claudia & William</p>
+        </section>
+    </div>
+
+    <script>
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx2MEIktwyOg0HBh6EoYU7PAb-Tgw4ta7Yt4H3Sxa9rjJ0irhleXK9ikS8FdRBJwhjpiA/exec";
+
+        function abrir() {
+            document.body.classList.add('opened');
+            setTimeout(() => { document.body.style.overflowY = "auto"; }, 1200);
+            const audio = document.getElementById('musica');
+            if(audio) audio.play().catch(e => console.log("Audio play blocked."));
+        }
+
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const cupos = urlParams.get('cupos') || 'tu familia';
+            const display = document.getElementById('display-cupos');
+            if(display) display.innerText = cupos;
+        };
+
+        document.getElementById('form-confirmacion').onsubmit = function(e) {
+            e.preventDefault();
+            const btn = document.getElementById('btn-enviar');
+            btn.innerText = "ENVIANDO...";
+            btn.disabled = true;
+
+            const datos = {
+                nombre: document.getElementById('form-nombre').value,
+                asistencia: document.getElementById('form-asistencia').value,
+                mensaje: document.getElementById('form-mensaje').value,
+                cupos: document.getElementById('display-cupos').innerText
+            };
+
+            fetch(SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                body: JSON.stringify(datos)
+            }).then(() => {
+                document.getElementById('form-confirmacion').style.display = 'none';
+                document.getElementById('exito').style.display = 'block';
+            }).catch(err => {
+                alert("Error al enviar. Intenta de nuevo.");
+                btn.innerText = "ENVIAR CONFIRMACIÓN";
+                btn.disabled = false;
+            });
+        };
+
+        // CONTADOR
+        const weddingDate = new Date("Feb 20, 2027 15:00:00").getTime();
+        setInterval(() => {
+            const d = weddingDate - new Date().getTime();
+            document.getElementById("days").innerText = Math.floor(d / 864e5).toString().padStart(2, '0');
+            document.getElementById("hours").innerText = Math.floor((d % 864e5) / 36e5).toString().padStart(2, '0');
+            document.getElementById("minutes").innerText = Math.floor((d % 36e5) / 6e4).toString().padStart(2, '0');
+            document.getElementById("seconds").innerText = Math.floor((d % 6e4) / 1000).toString().padStart(2, '0');
+        }, 1000);
+    </script>
+</body>
+</html>
